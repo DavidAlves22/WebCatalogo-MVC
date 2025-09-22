@@ -29,12 +29,24 @@ namespace CatalogoMvc.Controllers
             return View(categoria);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CategoriaViewModel>> Create(CategoriaViewModel categoriaViewModel)
+        [HttpGet]
+        public IActionResult CriarNovaCategoria()
         {
-            var categoria = await _categoriaService.Create(categoriaViewModel);
-            if (categoria is null) return View("Error");
-            return View(categoria);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CategoriaViewModel>> CriarNovaCategoria(CategoriaViewModel categoriaViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var categoria = await _categoriaService.Create(categoriaViewModel);
+                if (categoria is not null)
+                    return RedirectToAction(nameof(Index));
+                ViewBag.Erro = "Erro ao criar categoria";
+            }
+
+            return View(categoriaViewModel);
         }
 
         [HttpPut]
