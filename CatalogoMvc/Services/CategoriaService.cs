@@ -78,10 +78,8 @@ namespace CatalogoMvc.Services
         public async Task<CategoriaViewModel> Update(CategoriaViewModel categoriaViewModel)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
-            var categoria = JsonSerializer.Serialize(categoriaViewModel);
-            StringContent content = new StringContent(categoria, System.Text.Encoding.UTF8, "application/json");
 
-            using (var response = await client.PutAsJsonAsync(apiEndPoint, content))
+            using (var response = await client.PutAsJsonAsync(apiEndPoint, categoriaViewModel))
             {
                 if (response.IsSuccessStatusCode)
                 {
