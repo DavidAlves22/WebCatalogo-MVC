@@ -1,0 +1,33 @@
+﻿@model CatalogoMvc.Models.CategoriaViewModel
+
+<h2>Deletar Categoria</h2>
+
+<h3>Tem certeza que deseja excluir essa categoria?</h3>
+
+<div>
+    <hr/>
+    <dl class="col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(Model => Model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(Model => Model.ImagemUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.ImagemUrl)
+        </dd>
+    </dl>
+
+    <form asp-action="RemoveCategoria">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group" style="padding-top: 10px">
+
+            <input type="submit" value="Deletar" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-primary">Retornar</a>
+        </div>
+    </form>
+</div>

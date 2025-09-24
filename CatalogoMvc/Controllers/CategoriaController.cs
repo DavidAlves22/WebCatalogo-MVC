@@ -54,7 +54,8 @@ namespace CatalogoMvc.Controllers
         {
             var categoria = await _categoriaService.GetById(id);
 
-            if (categoria is null) return View("Error");
+            if (categoria is null)
+                return View("Error");
 
             return View(categoria);
         }
@@ -73,12 +74,26 @@ namespace CatalogoMvc.Controllers
             return View(categoriaViewModel);
         }
 
-        [HttpDelete("id")]
-        public async Task<ActionResult<bool>> Remove(int id)
+        [HttpGet]
+        public async Task<IActionResult> RemoveCategoria(int id)
+        {
+            var categoria = await _categoriaService.GetById(id);
+
+            if (categoria is null)
+                return View("Error");
+
+            return View(categoria);
+        }
+
+        [HttpPost(), ActionName("RemoveCategoria")]
+        public async Task<ActionResult> Remove(int id)
         {
             var remove = await _categoriaService.Remove(id);
-            if (!remove) return View("Error");
-            return View(remove);
+
+            if (remove)
+                return RedirectToAction(nameof(Index));
+
+            return View("Error");
         }
     }
 }
