@@ -1,4 +1,5 @@
 using CatalogoMvc.Services;
+using CatalogoMvc.Services.HttpClientServices;
 using CatalogoMvc.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,14 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient("CatalogoApi", c =>
-{
-    var baseAdress = builder.Configuration["ServiceUri:CatalogoApi"];
-    c.BaseAddress = new Uri(baseAdress);
-    c.DefaultRequestHeaders.Add("Accept", "application/json");
-});
+builder.Services.AddClienteNomeadoService(builder.Configuration);
 
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 
 var app = builder.Build();
 
