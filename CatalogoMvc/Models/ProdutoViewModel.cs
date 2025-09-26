@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogoMvc.Models;
 
@@ -12,13 +11,14 @@ public class ProdutoViewModel
     [MaxLength(80)]
     public string? Nome { get; set; }
 
-    [Required(ErrorMessage = "Descricao é obrigatória")]
+    [Required(ErrorMessage = "Descrição é obrigatória")]
     [MinLength(5)]
+    [Display(Name = "Descrição")]
     [MaxLength(300)]
     public string? Descricao { get; set; }
 
     [Required(ErrorMessage = "Preço é obrigatório")]
-    [Column(TypeName = "decimal(10,2)")]
+    [Display(Name = "Preço")]
     [DisplayFormat(DataFormatString = "{0:C2}")]
     [DataType(DataType.Currency)]
     public decimal Preco { get; set; }
