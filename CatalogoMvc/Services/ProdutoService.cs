@@ -1,5 +1,6 @@
 ﻿using CatalogoMvc.Models;
 using CatalogoMvc.Services.Interfaces;
+using NuGet.Common;
 using System.Text.Json;
 
 namespace CatalogoMvc.Services
@@ -16,9 +17,10 @@ namespace CatalogoMvc.Services
             _clientFactory = clientFactory;
         }
 
-        public async Task<IEnumerable<ProdutoViewModel>> GetProdutos()
+        public async Task<IEnumerable<ProdutoViewModel>> GetProdutos(string token)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
+            PutTokenInHeader(client, token);
 
             using (var response = await client.GetAsync(apiEndPoint))
             {
@@ -35,9 +37,10 @@ namespace CatalogoMvc.Services
             }
         }
 
-        public async Task<ProdutoViewModel> GetById(int id)
+        public async Task<ProdutoViewModel> GetById(string token, int id)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
+            PutTokenInHeader(client, token);
 
             using (var response = await client.GetAsync(apiEndPoint + id))
             {
@@ -54,9 +57,11 @@ namespace CatalogoMvc.Services
             }
         }
 
-        public async Task<ProdutoViewModel> Create(ProdutoViewModel produtoViewModel)
+        public async Task<ProdutoViewModel> Create(string token, ProdutoViewModel produtoViewModel)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
+            PutTokenInHeader(client, token);
+
             var produto = JsonSerializer.Serialize(produtoViewModel);
             StringContent content = new StringContent(produto, System.Text.Encoding.UTF8, "application/json");
 
@@ -75,9 +80,10 @@ namespace CatalogoMvc.Services
             }
         }
 
-        public async Task<ProdutoViewModel> Update(ProdutoViewModel produtoViewModel)
+        public async Task<ProdutoViewModel> Update(string token, ProdutoViewModel produtoViewModel)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
+            PutTokenInHeader(client, token);
 
             using (var response = await client.PutAsJsonAsync(apiEndPoint, produtoViewModel))
             {
@@ -94,9 +100,10 @@ namespace CatalogoMvc.Services
             }
         }
 
-        public async Task<bool> Remove(int id)
+        public async Task<bool> Remove(string token, int id)
         {
             var client = _clientFactory.CreateClient("CatalogoApi");
+            PutTokenInHeader(client, token);
 
             using (var response = await client.DeleteAsync(apiEndPoint + id))
             {
@@ -109,6 +116,11 @@ namespace CatalogoMvc.Services
                     return false;
                 }
             }
+        }
+
+        private static void PutTokenInHeader(HttpClient client, string token)
+        {
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
     }
 }

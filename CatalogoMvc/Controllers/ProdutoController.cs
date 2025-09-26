@@ -16,7 +16,8 @@ namespace CatalogoMvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProdutoViewModel>>> Index()
         {
-            var produtos = await _produtoService.GetProdutos();
+            var token = Request.Cookies["X-Access-Token"];
+            var produtos = await _produtoService.GetProdutos(token);
             if (produtos is null) return View("Error");
             return View(produtos);
         }
@@ -24,7 +25,8 @@ namespace CatalogoMvc.Controllers
         [HttpGet("id")]
         public async Task<ActionResult<ProdutoViewModel>> GetById(int id)
         {
-            var produto = await _produtoService.GetById(id);
+            var token = Request.Cookies["X-Access-Token"];
+            var produto = await _produtoService.GetById(token, id);
             if (produto is null) return View("Error");
             return View(produto);
         }
@@ -40,7 +42,8 @@ namespace CatalogoMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var produto = await _produtoService.Create(produtoViewModel);
+                var token = Request.Cookies["X-Access-Token"];
+                var produto = await _produtoService.Create(token, produtoViewModel);
                 if (produto is not null)
                     return RedirectToAction(nameof(Index));
                 ViewBag.Erro = "Erro ao criar produto";
@@ -52,7 +55,8 @@ namespace CatalogoMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateProduto(int id)
         {
-            var produto = await _produtoService.GetById(id);
+            var token = Request.Cookies["X-Access-Token"];
+            var produto = await _produtoService.GetById(token, id);
 
             if (produto is null)
                 return View("Error");
@@ -65,7 +69,8 @@ namespace CatalogoMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var produto = await _produtoService.Update(produtoViewModel);
+                var token = Request.Cookies["X-Access-Token"];
+                var produto = await _produtoService.Update(token, produtoViewModel);
                 if (produto is not null)
                     return RedirectToAction(nameof(Index));
                 ViewBag.Erro = "Erro ao criar produto";
@@ -77,7 +82,8 @@ namespace CatalogoMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> RemoveProduto(int id)
         {
-            var produto = await _produtoService.GetById(id);
+            var token = Request.Cookies["X-Access-Token"];
+            var produto = await _produtoService.GetById(token, id);
 
             if (produto is null)
                 return View("Error");
@@ -88,7 +94,8 @@ namespace CatalogoMvc.Controllers
         [HttpPost(), ActionName("RemoveProduto")]
         public async Task<ActionResult> Remove(int id)
         {
-            var remove = await _produtoService.Remove(id);
+            var token = Request.Cookies["X-Access-Token"];
+            var remove = await _produtoService.Remove(token, id);
 
             if (remove)
                 return RedirectToAction(nameof(Index));

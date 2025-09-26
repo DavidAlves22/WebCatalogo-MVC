@@ -4,10 +4,10 @@ namespace CatalogoMvc.Services.Interfaces
 {
     public interface IProdutoService
     {
-        Task<IEnumerable<ProdutoViewModel>> GetProdutos();
-        Task<ProdutoViewModel> GetById(int id);
-        Task<ProdutoViewModel> Create(ProdutoViewModel produtoViewModel);
-        Task<ProdutoViewModel> Update(ProdutoViewModel produtoViewModel);
-        Task<bool> Remove(int id);
+        Task<IEnumerable<ProdutoViewModel>> GetProdutos(string token);
+        Task<ProdutoViewModel> GetById(string token, int id);
+        Task<ProdutoViewModel> Create(string token, ProdutoViewModel produtoViewModel);
+        Task<ProdutoViewModel> Update(string token, ProdutoViewModel produtoViewModel);
+        Task<bool> Remove(string token, int id);
     }
 }
