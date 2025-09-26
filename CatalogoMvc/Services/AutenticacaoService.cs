@@ -1,7 +1,5 @@
 ﻿using CatalogoMvc.Models.Autenticacao;
 using CatalogoMvc.Services.Interfaces;
-using System.Data;
-using System.Reflection;
 using System.Text.Json;
 
 namespace CatalogoMvc.Services

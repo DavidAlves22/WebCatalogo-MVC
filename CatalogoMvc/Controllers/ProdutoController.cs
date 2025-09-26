@@ -65,6 +65,7 @@ namespace CatalogoMvc.Controllers
             if (produto is null)
                 return View("Error");
 
+            ViewBag.Categorias = new SelectList(await _categoriaService.GetCategorias(), "Id", "Nome");
             return View(produto);
         }
 
